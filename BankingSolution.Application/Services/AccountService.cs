@@ -18,6 +18,12 @@ namespace BankingSolution.Application.Services
 
         public async Task<Account> CreateAccountAsync(string accountNumber, decimal initialBalance)
         {
+            var createdAccount = await _accountRepository.GetByAccountNumberAsync(accountNumber);
+            if (createdAccount != null)
+            {
+                throw new ArgumentException("An account with this number has already been created.");
+            }
+
             var account = new Account(accountNumber, initialBalance);
 
             await _accountRepository.AddAsync(account);

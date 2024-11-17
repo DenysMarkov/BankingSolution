@@ -5,11 +5,13 @@
 - Transactions: deposit, withdraw, transfer funds.
 - RESTful API with Swagger documentation.
 
-## Setup
+## Setup and run
 1. Clone the repository.
 2. Start the application:
 dotnet run --project BankingSolution.API
 3. Open Swagger UI: `http://localhost:5209/swagger`.
+4. Run tests:
+dotnet test
 
 ## Explanation of Choosing Domain-Driven Design for the Task
 Domain-Driven Design (DDD)

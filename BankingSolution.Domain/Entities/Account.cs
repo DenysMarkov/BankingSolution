@@ -13,6 +13,15 @@ namespace BankingSolution.Domain.Entities
 
         public Account(string accountNumber, decimal balance)
         {
+            if (string.IsNullOrEmpty(accountNumber))
+            {
+                throw new ArgumentNullException(nameof(accountNumber));
+            }
+            if (balance < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(balance));
+            }
+
             Id = Guid.NewGuid();
             AccountNumber = accountNumber;
             Balance = balance;
