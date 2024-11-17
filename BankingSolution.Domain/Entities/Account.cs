@@ -11,11 +11,11 @@ namespace BankingSolution.Domain.Entities
         public string AccountNumber { get; private set; }
         public decimal Balance { get; private set; }
 
-        public Account(string accountNumber, decimal initialBalance)
+        public Account(string accountNumber, decimal balance)
         {
             Id = Guid.NewGuid();
             AccountNumber = accountNumber;
-            Balance = initialBalance;
+            Balance = balance;
         }
 
         /// <summary>

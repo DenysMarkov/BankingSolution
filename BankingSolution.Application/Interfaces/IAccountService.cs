@@ -10,6 +10,8 @@ namespace BankingSolution.Application.Interfaces
         Task<Account> CreateAccountAsync(string accountNumber, decimal initialBalance);
         Task<Account> GetAccountDetailsAsync(string accountNumber);
         Task<IEnumerable<Account>> GetAllAccountsAsync();
+        Task DepositAsync(string accountNumber, decimal amount);
+        Task WithdrawAsync(string accountNumber, decimal amount);
         Task TransferAsync(string fromAccountNumber, string toAccountNumber, decimal amount);
     }
 }

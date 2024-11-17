@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using BankingSolution.Application.Services;
 using BankingSolution.API.DTO;
+using BankingSolution.Application.Interfaces;
 
 namespace BankingSolution.API.Controllers
 {
@@ -8,11 +8,11 @@ namespace BankingSolution.API.Controllers
     [Route("api/[controller]")]
     public class AccountController : ControllerBase
     {
-        private readonly AccountService _accountService;
+        private readonly IAccountService _accountService;
 
         private readonly ILogger<AccountController> _logger;
 
-        public AccountController(AccountService accountService, ILogger<AccountController> logger)
+        public AccountController(IAccountService accountService, ILogger<AccountController> logger)
         {
             _accountService = accountService;
             _logger = logger;

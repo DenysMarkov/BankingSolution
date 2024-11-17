@@ -1,5 +1,5 @@
 ﻿using BankingSolution.Domain.Entities;
-using BankingSolution.Application.Interfaces;
+using BankingSolution.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace BankingSolution.Infrastructure

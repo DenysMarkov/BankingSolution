@@ -12,16 +12,12 @@ namespace BankingSolution.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Account>()
-                .HasKey(a => a.Id);
-
-            modelBuilder.Entity<Account>()
-                .Property(a => a.AccountNumber)
-                .IsRequired();
-
-            modelBuilder.Entity<Account>()
-                .Property(a => a.Balance)
-                .HasColumnType("decimal(18,2)");
+            modelBuilder.Entity<Account>(entity =>
+            {
+                entity.HasKey(a => a.Id);
+                entity.Property(a => a.AccountNumber).IsRequired();
+                entity.Property(a => a.Balance).HasColumnType("decimal(18,2)");
+            });
         }
     }
 }

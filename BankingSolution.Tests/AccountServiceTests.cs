@@ -1,4 +1,4 @@
-using BankingSolution.Application.Interfaces;
+using BankingSolution.Domain.Interfaces;
 using BankingSolution.Application.Services;
 using BankingSolution.Domain.Entities;
 using Moq;

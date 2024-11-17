@@ -1,6 +1,6 @@
 ﻿using BankingSolution.Domain.Entities;
 
-namespace BankingSolution.Application.Interfaces
+namespace BankingSolution.Domain.Interfaces
 {
     /// <summary>
     /// Interface for account data access.

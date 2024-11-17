@@ -1,4 +1,5 @@
 ﻿using BankingSolution.Domain.Entities;
+using BankingSolution.Domain.Interfaces;
 using BankingSolution.Application.Interfaces;
 
 namespace BankingSolution.Application.Services
