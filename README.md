@@ -13,13 +13,15 @@ dotnet run --project BankingSolution.API
 
 ## Explanation of Choosing Domain-Driven Design for the Task
 Domain-Driven Design (DDD)
+
 Why is DDD suitable for this task?
 Domain-Driven Design focuses on building a system around the core business logic and the domain model. For banking applications, key aspects include:
 
-Complex domain logic: Banking involves strict handling of monetary transactions, which must be accurately processed and validated (e.g., managing balances, validating transactions). DDD helps focus on such details.
-Clear structure: The clear separation into layers (Domain, Application, Infrastructure, API) simplifies code understanding and system evolution. For example, operations like deposits or transfers naturally fit into domain logic.
-Scalability: DDD simplifies adding new business features, such as loans or fee calculations, without breaking the existing architecture.
+- Complex domain logic: Banking involves strict handling of monetary transactions, which must be accurately processed and validated (e.g., managing balances, validating transactions). DDD helps focus on such details.
+- Clear structure: The clear separation into layers (Domain, Application, Infrastructure, API) simplifies code understanding and system evolution. For example, operations like deposits or transfers naturally fit into domain logic.
+- Scalability: DDD simplifies adding new business features, such as loans or fee calculations, without breaking the existing architecture.
+
 Examples of DDD in the solution:
 
-Entities and Value Objects: Account isolate business logic and ensure data integrity.
-Interfaces: IAccountRepository abstracts data access so that the domain layer does not depend on the infrastructure.
+- Entities: Account isolate business logic and ensure data integrity.
+- Interfaces: IAccountRepository abstracts data access so that the domain layer does not depend on the infrastructure.
