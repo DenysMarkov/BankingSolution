@@ -6,7 +6,7 @@ namespace BankingSolution.Application.Services
     /// <summary>
     /// Service for handling account-related operations.
     /// </summary>
-    public class AccountService
+    public class AccountService : IAccountService
     {
         private readonly IAccountRepository _accountRepository;
 

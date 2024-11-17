@@ -1,9 +1,11 @@
-﻿namespace BankingSolution.Domain.Entities
+﻿using BankingSolution.Domain.Interfaces;
+
+namespace BankingSolution.Domain.Entities
 {
     /// <summary>
     /// Represents a bank account in the system.
     /// </summary>
-    public class Account
+    public class Account : IAccount
     {
         public Guid Id { get; private set; }
         public string AccountNumber { get; private set; }
