@@ -6,18 +6,8 @@ namespace BankingSolution.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AccountController : ControllerBase
+    public class AccountController(IAccountService _accountService, ILogger<AccountController> _logger) : ControllerBase
     {
-        private readonly IAccountService _accountService;
-
-        private readonly ILogger<AccountController> _logger;
-
-        public AccountController(IAccountService accountService, ILogger<AccountController> logger)
-        {
-            _accountService = accountService;
-            _logger = logger;
-        }
-
         [HttpGet]
         public async Task<IActionResult> GetAllAccounts()
         {

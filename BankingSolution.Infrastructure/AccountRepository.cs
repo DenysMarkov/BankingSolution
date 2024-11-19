@@ -4,14 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BankingSolution.Infrastructure
 {
-    public class AccountRepository : IAccountRepository
+    public class AccountRepository(BankingDbContext _dbContext) : IAccountRepository
     {
-        private readonly BankingDbContext _dbContext;
-
-        public AccountRepository(BankingDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
 
         public async Task<Account> GetByAccountNumberAsync(string accountNumber) =>
             await _dbContext.Accounts.FirstOrDefaultAsync(a => a.AccountNumber == accountNumber);

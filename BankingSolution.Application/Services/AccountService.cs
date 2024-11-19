@@ -7,15 +7,8 @@ namespace BankingSolution.Application.Services
     /// <summary>
     /// Service for handling account-related operations.
     /// </summary>
-    public class AccountService : IAccountService
+    public class AccountService(IAccountRepository _accountRepository) : IAccountService
     {
-        private readonly IAccountRepository _accountRepository;
-
-        public AccountService(IAccountRepository accountRepository)
-        {
-            _accountRepository = accountRepository;
-        }
-
         public async Task<Account> CreateAccountAsync(string accountNumber, decimal initialBalance)
         {
             var createdAccount = await _accountRepository.GetByAccountNumberAsync(accountNumber);
