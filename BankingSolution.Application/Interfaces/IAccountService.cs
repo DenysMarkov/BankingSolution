@@ -7,7 +7,7 @@ namespace BankingSolution.Application.Interfaces
     /// </summary>
     public interface IAccountService
     {
-        Task<Account> CreateAccountAsync(string accountNumber, decimal initialBalance);
+        Task<Account> CreateAccountAsync(string accountNumber, decimal initialBalance, Currency currency);
         Task<Account> GetAccountDetailsAsync(string accountNumber);
         Task<IEnumerable<Account>> GetAllAccountsAsync();
         Task DepositAsync(string accountNumber, decimal amount);

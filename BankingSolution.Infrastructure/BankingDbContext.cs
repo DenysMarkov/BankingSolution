@@ -14,8 +14,8 @@ namespace BankingSolution.Infrastructure
         {
             modelBuilder.Entity<Account>(entity =>
             {
-                entity.HasKey(a => a.Id);
-                entity.Property(a => a.AccountNumber).IsRequired();
+                entity.HasKey(a => a.AccountNumber);
+                entity.Property(a => a.Currency).IsRequired();
                 entity.Property(a => a.Balance).HasColumnType("decimal(18,2)");
             });
         }

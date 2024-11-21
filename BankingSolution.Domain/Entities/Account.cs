@@ -7,11 +7,11 @@ namespace BankingSolution.Domain.Entities
     /// </summary>
     public class Account : IAccount
     {
-        public Guid Id { get; private set; }
         public string AccountNumber { get; private set; }
         public decimal Balance { get; private set; }
+        public Currency Currency { get; private set; }
 
-        public Account(string accountNumber, decimal balance)
+        public Account(string accountNumber, decimal balance, Currency currency)
         {
             if (string.IsNullOrEmpty(accountNumber))
             {
@@ -22,9 +22,9 @@ namespace BankingSolution.Domain.Entities
                 throw new ArgumentOutOfRangeException(nameof(balance));
             }
 
-            Id = Guid.NewGuid();
             AccountNumber = accountNumber;
             Balance = balance;
+            Currency = currency;
         }
 
         /// <summary>

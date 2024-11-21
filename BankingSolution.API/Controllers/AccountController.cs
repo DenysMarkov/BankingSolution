@@ -1,6 +1,6 @@
-using Microsoft.AspNetCore.Mvc;
 using BankingSolution.API.DTO;
 using BankingSolution.Application.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BankingSolution.API.Controllers
 {
@@ -29,9 +29,14 @@ namespace BankingSolution.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAccount([FromBody] BalanceRequest request)
+        public async Task<IActionResult> CreateAccount([FromBody] CreateAccountRequest request)
         {
-            var account = await _accountService.CreateAccountAsync(request.AccountNumber, request.Amount);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var account = await _accountService.CreateAccountAsync(request.AccountNumber, request.Amount, request.Currency);
             return CreatedAtAction(nameof(GetAccountDetails), new { accountNumber = account.AccountNumber }, account);
         }
 
@@ -77,6 +82,10 @@ namespace BankingSolution.API.Controllers
                 await _accountService.TransferAsync(request.FromAccountNumber, request.ToAccountNumber, request.Amount);
             }
             catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (InvalidOperationException ex)
             {
                 return BadRequest(ex.Message);
             }

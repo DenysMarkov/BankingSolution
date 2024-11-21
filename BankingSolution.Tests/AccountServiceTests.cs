@@ -1,6 +1,6 @@
-using BankingSolution.Domain.Interfaces;
 using BankingSolution.Application.Services;
 using BankingSolution.Domain.Entities;
+using BankingSolution.Domain.Interfaces;
 using Moq;
 
 namespace BankingSolution.Tests
@@ -11,15 +11,17 @@ namespace BankingSolution.Tests
         private Mock<IAccountRepository> _accountRepositoryMock;
         private AccountService _accountService;
         private string _accountNumber;
+        private Currency _currency;
         private string _accountNumberSender;
         private string _accountNumberReceiver;
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            _accountNumber = "12345";
+            _accountNumber = "1200457721415111";
             _accountNumberSender = _accountNumber;
-            _accountNumberReceiver = "67890";
+            _accountNumberReceiver = "8900787854778888";
+            _currency = Currency.USD;
         }
 
         [SetUp]
@@ -38,7 +40,7 @@ namespace BankingSolution.Tests
             var initialBalance = 1000m;
 
             // Act
-            var account = await _accountService.CreateAccountAsync(_accountNumber, initialBalance);
+            var account = await _accountService.CreateAccountAsync(_accountNumber, initialBalance, _currency);
 
             // Assert
             Assert.That(_accountNumber, Is.EqualTo(account.AccountNumber));
@@ -51,13 +53,13 @@ namespace BankingSolution.Tests
         public async Task CreateAccountAsync_ShouldThrowException_WhenAccountWithSameNumberAlreadyCreated()
         {
             // Arrange
-            var account = new Account(_accountNumber, 100);
+            var account = new Account(_accountNumber, 100, _currency);
             _accountRepositoryMock.Setup(repo => repo.GetByAccountNumberAsync(_accountNumber))
                                   .ReturnsAsync(account);
 
             // Act & Assert
             Assert.ThrowsAsync<ArgumentException>(async () =>
-                await _accountService.CreateAccountAsync(_accountNumber, 50));
+                await _accountService.CreateAccountAsync(_accountNumber, 50, _currency));
         }
 
         #endregion
@@ -68,7 +70,7 @@ namespace BankingSolution.Tests
         public async Task GetAccountDetailsAsync_ExistingAccount_ReturnsAccount()
         {
             // Arrange
-            var account = new Account(_accountNumber, 1000m);
+            var account = new Account(_accountNumber, 1000m, _currency);
             _accountRepositoryMock
                 .Setup(repo => repo.GetByAccountNumberAsync(_accountNumber))
                 .ReturnsAsync(account);
@@ -108,8 +110,8 @@ namespace BankingSolution.Tests
             var secondAccountNumber = _accountNumber + "0";
             var accounts = new List<Account>
             {
-                new Account(_accountNumber, 1000m),
-                new Account(secondAccountNumber, 500m)
+                new Account(_accountNumber, 1000m, _currency),
+                new Account(secondAccountNumber, 500m, _currency)
             };
             _accountRepositoryMock
                 .Setup(repo => repo.GetAllAsync())
@@ -152,7 +154,7 @@ namespace BankingSolution.Tests
             var balance = 100;
             var amount = 50;
             var expectedBalance = balance + amount;
-            var account = new Account(_accountNumber, balance);
+            var account = new Account(_accountNumber, balance, _currency);
             _accountRepositoryMock.Setup(repo => repo.GetByAccountNumberAsync(_accountNumber))
                                   .ReturnsAsync(account);
 
@@ -181,7 +183,7 @@ namespace BankingSolution.Tests
         {
             // Arrange
             var amount = -10;
-            var account = new Account(_accountNumber, 100);
+            var account = new Account(_accountNumber, 100, _currency);
             _accountRepositoryMock.Setup(repo => repo.GetByAccountNumberAsync(_accountNumber))
                                   .ReturnsAsync(account);
 
@@ -201,7 +203,7 @@ namespace BankingSolution.Tests
             var balance = 100;
             var amount = 50;
             var expectedBalance = balance - amount;
-            var account = new Account(_accountNumber, balance);
+            var account = new Account(_accountNumber, balance, _currency);
             _accountRepositoryMock.Setup(repo => repo.GetByAccountNumberAsync(_accountNumber))
                                   .ReturnsAsync(account);
 
@@ -230,7 +232,7 @@ namespace BankingSolution.Tests
         {
             // Arrange
             var amount = -10;
-            var account = new Account(_accountNumber, 100);
+            var account = new Account(_accountNumber, 100, _currency);
             _accountRepositoryMock.Setup(repo => repo.GetByAccountNumberAsync(_accountNumber))
                                   .ReturnsAsync(account);
 
@@ -245,7 +247,7 @@ namespace BankingSolution.Tests
             // Arrange
             var balance = 20;
             var amount = 50;
-            var account = new Account(_accountNumber, balance);
+            var account = new Account(_accountNumber, balance, _currency);
             _accountRepositoryMock.Setup(repo => repo.GetByAccountNumberAsync(_accountNumber))
                                   .ReturnsAsync(account);
 
@@ -267,8 +269,8 @@ namespace BankingSolution.Tests
             var amount = 50;
             var expectedBalanceSender = balanceSender - amount;
             var expectedBalanceReceiver = balanceReceiver + amount;
-            var sender = new Account(_accountNumberSender, balanceSender);
-            var receiver = new Account(_accountNumberReceiver, balanceReceiver);
+            var sender = new Account(_accountNumberSender, balanceSender, _currency);
+            var receiver = new Account(_accountNumberReceiver, balanceReceiver, _currency);
             _accountRepositoryMock.Setup(repo => repo.GetByAccountNumberAsync(_accountNumberSender))
                                   .ReturnsAsync(sender);
             _accountRepositoryMock.Setup(repo => repo.GetByAccountNumberAsync(_accountNumberReceiver))
@@ -299,7 +301,7 @@ namespace BankingSolution.Tests
         public void TransferAsync_ShouldThrowException_WhenReceiverNotFound()
         {
             // Arrange
-            var sender = new Account(_accountNumberSender, 100);
+            var sender = new Account(_accountNumberSender, 100, _currency);
             _accountRepositoryMock.Setup(repo => repo.GetByAccountNumberAsync(_accountNumberSender))
                                   .ReturnsAsync(sender);
             _accountRepositoryMock.Setup(repo => repo.GetByAccountNumberAsync(_accountNumberReceiver))
@@ -317,8 +319,28 @@ namespace BankingSolution.Tests
             var balanceSender = 20;
             var balanceReceiver = 50;
             var amount = 50;
-            var sender = new Account(_accountNumberSender, balanceSender);
-            var receiver = new Account(_accountNumberReceiver, balanceReceiver);
+            var sender = new Account(_accountNumberSender, balanceSender, _currency);
+            var receiver = new Account(_accountNumberReceiver, balanceReceiver, _currency);
+            _accountRepositoryMock.Setup(repo => repo.GetByAccountNumberAsync(_accountNumberSender))
+                                  .ReturnsAsync(sender);
+            _accountRepositoryMock.Setup(repo => repo.GetByAccountNumberAsync(_accountNumberReceiver))
+                                  .ReturnsAsync(receiver);
+
+            // Act & Assert
+            Assert.ThrowsAsync<InvalidOperationException>(async () =>
+                await _accountService.TransferAsync(_accountNumberSender, _accountNumberReceiver, amount));
+        }
+
+        [Test]
+        public void TransferAsync_ShouldThrowException_WhenDifferentCurrenciesInAccounts()
+        {
+            // Arrange
+            var balanceSender = 100;
+            var balanceReceiver = 50;
+            var amount = 50;
+            var anotherCurrency = Currency.EUR;
+            var sender = new Account(_accountNumberSender, balanceSender, _currency);
+            var receiver = new Account(_accountNumberReceiver, balanceReceiver, anotherCurrency);
             _accountRepositoryMock.Setup(repo => repo.GetByAccountNumberAsync(_accountNumberSender))
                                   .ReturnsAsync(sender);
             _accountRepositoryMock.Setup(repo => repo.GetByAccountNumberAsync(_accountNumberReceiver))

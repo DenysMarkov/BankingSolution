@@ -1,6 +1,6 @@
-﻿using BankingSolution.Domain.Entities;
+﻿using BankingSolution.Application.Interfaces;
+using BankingSolution.Domain.Entities;
 using BankingSolution.Domain.Interfaces;
-using BankingSolution.Application.Interfaces;
 
 namespace BankingSolution.Application.Services
 {
@@ -9,7 +9,7 @@ namespace BankingSolution.Application.Services
     /// </summary>
     public class AccountService(IAccountRepository _accountRepository) : IAccountService
     {
-        public async Task<Account> CreateAccountAsync(string accountNumber, decimal initialBalance)
+        public async Task<Account> CreateAccountAsync(string accountNumber, decimal initialBalance, Currency currency)
         {
             var createdAccount = await _accountRepository.GetByAccountNumberAsync(accountNumber);
             if (createdAccount != null)
@@ -17,7 +17,7 @@ namespace BankingSolution.Application.Services
                 throw new ArgumentException("An account with this number has already been created.");
             }
 
-            var account = new Account(accountNumber, initialBalance);
+            var account = new Account(accountNumber, initialBalance, currency);
 
             await _accountRepository.AddAsync(account);
             await _accountRepository.SaveChangesAsync();
@@ -61,6 +61,11 @@ namespace BankingSolution.Application.Services
                               ?? throw new ArgumentException("Source account not found.");
             var toAccount = await _accountRepository.GetByAccountNumberAsync(toAccountNumber)
                             ?? throw new ArgumentException("Destination account not found.");
+
+            if (fromAccount.Currency != toAccount.Currency)
+            {
+                throw new InvalidOperationException("Operation of transferring funds between accounts with different currencies.");
+            }
 
             fromAccount.Withdraw(amount);
             toAccount.Deposit(amount);
