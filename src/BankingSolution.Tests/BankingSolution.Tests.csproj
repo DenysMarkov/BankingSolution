@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BankingSolution.API\BankingSolution.API.csproj" />
     <ProjectReference Include="..\BankingSolution.Application\BankingSolution.Application.csproj" />
   </ItemGroup>
 

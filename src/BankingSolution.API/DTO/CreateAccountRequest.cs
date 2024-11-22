@@ -10,7 +10,7 @@ namespace BankingSolution.API.DTO
     {
         public string AccountNumber { get; set; }
         
-        public decimal Amount { get; set; }
+        public decimal InitialBalance { get; set; }
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public Currency Currency { get; set; }

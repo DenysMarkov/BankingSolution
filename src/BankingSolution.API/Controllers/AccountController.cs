@@ -41,7 +41,7 @@ namespace BankingSolution.API.Controllers
 
             try
             {
-                account = await _accountService.CreateAccountAsync(request.AccountNumber, request.Amount, request.Currency);
+                account = await _accountService.CreateAccountAsync(request.AccountNumber, request.InitialBalance, request.Currency);
             }
             catch(Exception ex)
             {

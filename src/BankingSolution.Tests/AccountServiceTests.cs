@@ -31,10 +31,10 @@ namespace BankingSolution.Tests
             _accountService = new AccountService(_accountRepositoryMock.Object);
         }
 
-        #region CreateAccountAsync
+        #region CreateAccountAsync Tests
 
         [Test]
-        public async Task CreateAccountAsync_ShouldCreateAccount()
+        public async Task CreateAccountAsync_ShouldCreateAccountTest()
         {
             // Arrange
             var initialBalance = 1000m;
@@ -50,7 +50,7 @@ namespace BankingSolution.Tests
         }
 
         [Test]
-        public async Task CreateAccountAsync_ShouldThrowException_WhenAccountWithSameNumberAlreadyCreated()
+        public async Task CreateAccountAsync_ShouldThrowException_WhenAccountWithSameNumberAlreadyCreatedTest()
         {
             // Arrange
             var account = new Account(_accountNumber, 100, _currency);
@@ -64,10 +64,10 @@ namespace BankingSolution.Tests
 
         #endregion
 
-        #region GetAccountDetailsAsync
+        #region GetAccountDetailsAsync Tests
 
         [Test]
-        public async Task GetAccountDetailsAsync_ExistingAccount_ReturnsAccount()
+        public async Task GetAccountDetailsAsync_ExistingAccount_ReturnsAccountTest()
         {
             // Arrange
             var account = new Account(_accountNumber, 1000m, _currency);
@@ -85,7 +85,7 @@ namespace BankingSolution.Tests
         }
 
         [Test]
-        public async Task GetAccountDetailsAsync_NonExistingAccount_NullReturned()
+        public async Task GetAccountDetailsAsync_NonExistingAccount_NullReturnedTest()
         {
             // Arrange
             _accountRepositoryMock
@@ -101,10 +101,10 @@ namespace BankingSolution.Tests
 
         #endregion
 
-        #region GetAllAccountsAsync
+        #region GetAllAccountsAsync Tests
 
         [Test]
-        public async Task GetAllAccountsAsync_ReturnsListOfAccounts()
+        public async Task GetAllAccountsAsync_ReturnsListOfAccountsTest()
         {
             // Arrange
             var secondAccountNumber = _accountNumber + "0";
@@ -128,7 +128,7 @@ namespace BankingSolution.Tests
         }
 
         [Test]
-        public async Task GetAllAccountsAsync_EmptyRepository_ReturnsEmptyList()
+        public async Task GetAllAccountsAsync_EmptyRepository_ReturnsEmptyListTest()
         {
             // Arrange
             _accountRepositoryMock
@@ -145,10 +145,10 @@ namespace BankingSolution.Tests
 
         #endregion
 
-        #region DepositAsync
+        #region DepositAsync Tests
 
         [Test]
-        public async Task DepositAsync_ShouldIncreaseBalance_WhenValidAmountProvided()
+        public async Task DepositAsync_ShouldIncreaseBalance_WhenValidAmountProvidedTest()
         {
             // Arrange
             var balance = 100;
@@ -167,7 +167,7 @@ namespace BankingSolution.Tests
         }
 
         [Test]
-        public void DepositAsync_ShouldThrowException_WhenAccountNotFound()
+        public void DepositAsync_ShouldThrowException_WhenAccountNotFoundTest()
         {
             // Arrange
             _accountRepositoryMock.Setup(repo => repo.GetByAccountNumberAsync(_accountNumber))
@@ -179,7 +179,7 @@ namespace BankingSolution.Tests
         }
 
         [Test]
-        public void DepositAsync_ShouldThrowException_WhenAmountIsNegative()
+        public void DepositAsync_ShouldThrowException_WhenAmountIsNegativeTest()
         {
             // Arrange
             var amount = -10;
@@ -194,10 +194,10 @@ namespace BankingSolution.Tests
 
         #endregion
 
-        #region WithdrawAsync
+        #region WithdrawAsync Tests
 
         [Test]
-        public async Task WithdrawAsync_ShouldDecreaseBalance_WhenSufficientFunds()
+        public async Task WithdrawAsync_ShouldDecreaseBalance_WhenSufficientFundsTest()
         {
             // Arrange
             var balance = 100;
@@ -216,7 +216,7 @@ namespace BankingSolution.Tests
         }
 
         [Test]
-        public void WithdrawAsync_ShouldThrowException_WhenAccountNotFound()
+        public void WithdrawAsync_ShouldThrowException_WhenAccountNotFoundTest()
         {
             // Arrange
             _accountRepositoryMock.Setup(repo => repo.GetByAccountNumberAsync(_accountNumber))
@@ -228,7 +228,7 @@ namespace BankingSolution.Tests
         }
 
         [Test]
-        public void WithdrawAsync_ShouldThrowException_WhenAmountIsNegative()
+        public void WithdrawAsync_ShouldThrowException_WhenAmountIsNegativeTest()
         {
             // Arrange
             var amount = -10;
@@ -242,7 +242,7 @@ namespace BankingSolution.Tests
         }
 
         [Test]
-        public void WithdrawAsync_ShouldThrowException_WhenInsufficientFunds()
+        public void WithdrawAsync_ShouldThrowException_WhenInsufficientFundsTest()
         {
             // Arrange
             var balance = 20;
@@ -258,10 +258,10 @@ namespace BankingSolution.Tests
 
         #endregion
 
-        #region TransferAsync
+        #region TransferAsync Tests
 
         [Test]
-        public async Task TransferAsync_ShouldTransferFunds_WhenSufficientBalance()
+        public async Task TransferAsync_ShouldTransferFunds_WhenSufficientBalanceTest()
         {
             // Arrange
             var balanceSender = 100;
@@ -286,7 +286,7 @@ namespace BankingSolution.Tests
         }
 
         [Test]
-        public void TransferAsync_ShouldThrowException_WhenSenderNotFound()
+        public void TransferAsync_ShouldThrowException_WhenSenderNotFoundTest()
         {
             // Arrange
             _accountRepositoryMock.Setup(repo => repo.GetByAccountNumberAsync(_accountNumberSender))
@@ -298,7 +298,7 @@ namespace BankingSolution.Tests
         }
 
         [Test]
-        public void TransferAsync_ShouldThrowException_WhenReceiverNotFound()
+        public void TransferAsync_ShouldThrowException_WhenReceiverNotFoundTest()
         {
             // Arrange
             var sender = new Account(_accountNumberSender, 100, _currency);
@@ -313,7 +313,7 @@ namespace BankingSolution.Tests
         }
 
         [Test]
-        public void TransferAsync_ShouldThrowException_WhenInsufficientFunds()
+        public void TransferAsync_ShouldThrowException_WhenInsufficientFundsTest()
         {
             // Arrange
             var balanceSender = 20;
@@ -332,7 +332,7 @@ namespace BankingSolution.Tests
         }
 
         [Test]
-        public void TransferAsync_ShouldThrowException_WhenDifferentCurrenciesInAccounts()
+        public void TransferAsync_ShouldThrowException_WhenDifferentCurrenciesInAccountsTest()
         {
             // Arrange
             var balanceSender = 100;
