@@ -67,7 +67,14 @@ namespace BankingSolution.Application.Services
                 throw new InvalidOperationException("Operation of transferring funds between accounts with different currencies.");
             }
 
-            fromAccount.Withdraw(amount);
+            try
+            {
+                fromAccount.Withdraw(amount);
+            }
+            catch(ArgumentException ex)
+            {
+                throw new ArgumentException("Transfer amount must be positive.");
+            }
             toAccount.Deposit(amount);
 
             await _accountRepository.SaveChangesAsync();
