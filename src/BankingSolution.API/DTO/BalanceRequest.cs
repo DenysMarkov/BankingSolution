@@ -1,7 +1,7 @@
 ﻿namespace BankingSolution.API.DTO
 {
     /// <summary>
-    /// Data Transfer Object for Creating account, Deposit and Withdraw operations.
+    /// Data Transfer Object for Deposit and Withdraw operations.
     /// </summary>
     public class BalanceRequest
     {

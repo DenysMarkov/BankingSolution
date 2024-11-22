@@ -3,6 +3,9 @@ using System.Text.Json.Serialization;
 
 namespace BankingSolution.API.DTO
 {
+    /// <summary>
+    /// Data Transfer Object for Creating account.
+    /// </summary>
     public class CreateAccountRequest
     {
         public string AccountNumber { get; set; }
